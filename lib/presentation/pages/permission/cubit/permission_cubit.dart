@@ -14,8 +14,11 @@ part 'permission_state.dart';
 class PermissionCubit
     extends SafeActionCubit<PermissionState, PermissionAction> {
   PermissionCubit() : super(const PermissionState.initial());
-
+  int sdk = 0;
   Future<void> init() async {
+    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+    final androidInfo = await deviceInfoPlugin.androidInfo;
+    sdk = androidInfo.version.sdkInt;
     if (await checkPermissions()) {
       dispatch(const PermissionAction.goHome());
     }
@@ -35,7 +38,7 @@ class PermissionCubit
 
   Future<bool> checkStorage() async {
     // ignore: avoid_bool_literals_in_conditional_expressions
-    return (await DeviceInfoPlugin().androidInfo).version.sdkInt < 33
+    return sdk < 33
         ? await Permission.storage.isGranted
         : true;
   }
@@ -67,12 +70,22 @@ class PermissionCubit
     await checkPermissions();
   }
 
+  Future<bool> checkWifi() async {
+    return Permission.nearbyWifiDevices.isGranted;
+  }
+
+  Future<void> requestWifi() async {
+    await Permission.nearbyWifiDevices.request();
+    await checkPermissions();
+  }
+
   Future<bool> checkPermissions() async {
     final location = await checkLocation();
     final storage = await checkStorage();
     final bluetooth = await checkBluetooth();
+    final wifi = sdk < 32 || await checkWifi();
 
-    if (state is _Initial && location && storage && bluetooth) {
+    if (state is _Initial && location && storage && bluetooth && wifi) {
       return true;
     }
     emit(
@@ -80,6 +93,7 @@ class PermissionCubit
         location: location,
         storage: storage,
         bluetooth: bluetooth,
+        wifi: wifi,
       ),
     );
     return false;

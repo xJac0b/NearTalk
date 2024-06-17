@@ -40,7 +40,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   bool loadVisibility() {
     final isVisible = _sharedPreferences.getBool(_visibilityKey);
-    return isVisible ?? false;
+    return isVisible ?? true;
   }
 
   @override

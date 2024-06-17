@@ -13,6 +13,7 @@ class PermissionView extends StatelessWidget {
     required this.location,
     required this.storage,
     required this.bluetooth,
+    required this.wifi,
     super.key,
   });
 
@@ -20,6 +21,7 @@ class PermissionView extends StatelessWidget {
   final bool location;
   final bool storage;
   final bool bluetooth;
+  final bool wifi;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,11 @@ class PermissionView extends StatelessWidget {
             icon: Icons.bluetooth,
             granted: bluetooth,
             onTap: () => cubit.requestBluetooth(),
+          ),
+          PermissionCard(
+            icon: Icons.wifi,
+            granted: wifi,
+            onTap: () => cubit.requestWifi(),
           ),
           SizedBox(height: AppSpacings.sixteen.h),
           if (location && storage && bluetooth)

@@ -7,5 +7,6 @@ class PermissionState with _$PermissionState {
     required bool location,
     required bool storage,
     required bool bluetooth,
+    required bool wifi,
   }) = _Permissions;
 }

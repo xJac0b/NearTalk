@@ -31,12 +31,6 @@ class PermissionPage extends HookWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: kToolbarHeight.h,
-        centerTitle: true,
-        title: const Text('Bluetoothy'),
-        actions: const [],
-      ),
       body: state.map(
         initial: (_) => const Center(child: CircularProgressIndicator()),
         permissions: (permissions) => PermissionView(
@@ -44,6 +38,7 @@ class PermissionPage extends HookWidget {
           location: permissions.location,
           storage: permissions.storage,
           bluetooth: permissions.bluetooth,
+          wifi: permissions.wifi,
         ),
       ),
     );
