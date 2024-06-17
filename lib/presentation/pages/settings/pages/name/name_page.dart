@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:neartalk/core/extensions.dart';
-import 'package:neartalk/presentation/pages/settings%20/pages/name/cubit/name_cubit.dart';
+import 'package:neartalk/presentation/pages/settings/pages/name/cubit/name_cubit.dart';
 import 'package:neartalk/presentation/shared/loading_indicator.dart';
 import 'package:neartalk/presentation/styles/app_spacings.dart';
 import 'package:neartalk/presentation/styles/app_typography.dart';

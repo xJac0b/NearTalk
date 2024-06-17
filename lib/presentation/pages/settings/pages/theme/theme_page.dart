@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
-import 'package:neartalk/presentation/pages/settings%20/pages/theme/cubit/theme_cubit.dart';
-import 'package:neartalk/presentation/pages/settings%20/widgets/settings_button.dart';
+import 'package:neartalk/presentation/pages/settings/pages/theme/cubit/theme_cubit.dart';
+import 'package:neartalk/presentation/pages/settings/widgets/settings_button.dart';
 import 'package:neartalk/presentation/shared/loading_indicator.dart';
 import 'package:neartalk/presentation/styles/app_spacings.dart';
 

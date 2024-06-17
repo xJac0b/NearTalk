@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:neartalk/core/extensions.dart';
 import 'package:neartalk/presentation/pages/chat_info/cubit/chat_info_cubit.dart';
-import 'package:neartalk/presentation/pages/settings%20/widgets/settings_button.dart';
+import 'package:neartalk/presentation/pages/settings/widgets/settings_button.dart';
 import 'package:neartalk/presentation/shared/app_bar_widget.dart';
 import 'package:neartalk/presentation/shared/avatar.dart';
 import 'package:neartalk/presentation/styles/app_dimens.dart';

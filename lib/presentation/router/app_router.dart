@@ -7,9 +7,9 @@ import 'package:neartalk/presentation/pages/gallery/gallery_page.dart';
 import 'package:neartalk/presentation/pages/home/home_page.dart';
 import 'package:neartalk/presentation/pages/permission/permission_page.dart';
 import 'package:neartalk/presentation/pages/scan/scan_page.dart';
-import 'package:neartalk/presentation/pages/settings%20/pages/name/name_page.dart';
-import 'package:neartalk/presentation/pages/settings%20/pages/theme/theme_page.dart';
-import 'package:neartalk/presentation/pages/settings%20/settings_page.dart';
+import 'package:neartalk/presentation/pages/settings/pages/name/name_page.dart';
+import 'package:neartalk/presentation/pages/settings/pages/theme/theme_page.dart';
+import 'package:neartalk/presentation/pages/settings/settings_page.dart';
 import 'package:neartalk/presentation/router/routes.dart';
 
 part 'app_router.g.dart';
