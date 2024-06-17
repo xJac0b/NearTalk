@@ -8,6 +8,7 @@ import 'package:nearby_connections/nearby_connections.dart';
 import 'package:neartalk/domain/chat/models/chat.dart';
 import 'package:neartalk/domain/chat/use_cases/get_chats_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/on_payload_received_use_case.dart';
+import 'package:neartalk/domain/chat/use_cases/on_payload_transfer_update_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/watch_chat_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
 import 'package:neartalk/domain/settings/use_cases/get_name_use_case.dart';
@@ -29,6 +30,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
     this._connectionsController,
     this._getUid,
     this._onPayloadReceivedUseCase,
+    this._onPayloadTransferUpdateUseCase,
   ) : super(HomeState.initial());
 
   final GetNameUseCase _getName;
@@ -38,6 +40,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
   final ConnectionsController _connectionsController;
   final GetUidUseCase _getUid;
   final OnPayloadReceivedUseCase _onPayloadReceivedUseCase;
+  final OnPayloadTransferUpdateUseCase _onPayloadTransferUpdateUseCase;
 
   Future<void> init() async {
     await loadChats();
@@ -105,12 +108,16 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
   }
 
   Future<void> acceptConnection(String id, String name) async {
-    await Nearby().acceptConnection(id,
-        onPayLoadRecieved: (String endpointId, Payload payload) async =>
-            await _onPayloadReceivedUseCase(
-              endpointId: endpointId,
-              payload: payload,
-              name: name,
-            ));
+    await Nearby().acceptConnection(
+      id,
+      onPayLoadRecieved: (String endpointId, Payload payload) async =>
+          await _onPayloadReceivedUseCase(
+        endpointId: endpointId,
+        payload: payload,
+        name: name,
+      ),
+      onPayloadTransferUpdate: (endpointId, payloadTransferUpdate) =>
+          _onPayloadTransferUpdateUseCase(endpointId, payloadTransferUpdate),
+    );
   }
 }

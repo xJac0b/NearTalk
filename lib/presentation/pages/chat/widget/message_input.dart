@@ -49,9 +49,9 @@ class MessageInput extends HookWidget {
                           Logger().d('Camera clicked');
                           ImagePicker()
                               .pickImage(
-                                  source: ImageSource.camera,
-                                  requestFullMetadata: false,
-                                  imageQuality: 50)
+                            source: ImageSource.camera,
+                            requestFullMetadata: false,
+                          )
                               .then((result) {
                             if (result != null) {
                               cubit.sendFile(result);
@@ -80,9 +80,9 @@ class MessageInput extends HookWidget {
                             onTap: () {
                               ImagePicker()
                                   .pickImage(
-                                      requestFullMetadata: false,
-                                      source: ImageSource.gallery,
-                                      imageQuality: 50)
+                                requestFullMetadata: false,
+                                source: ImageSource.gallery,
+                              )
                                   .then((result) {
                                 if (result != null) {
                                   cubit.sendFile(result);

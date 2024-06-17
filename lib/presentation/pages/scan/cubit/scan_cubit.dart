@@ -9,6 +9,7 @@ import 'package:nearby_connections/nearby_connections.dart';
 import 'package:neartalk/domain/chat/models/chat.dart';
 import 'package:neartalk/domain/chat/use_cases/add_chat_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/on_payload_received_use_case.dart';
+import 'package:neartalk/domain/chat/use_cases/on_payload_transfer_update_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
 import 'package:neartalk/domain/connections/use_cases/get_device_id_use_case.dart';
 import 'package:neartalk/domain/settings/use_cases/get_name_use_case.dart';
@@ -21,8 +22,14 @@ part 'scan_state.dart';
 
 @inject
 class ScanCubit extends SafeCubit<ScanState> {
-  ScanCubit(this._getName, this._addChatUseCase, this._connectionsController,
-      this._getUid, this._getDeviceIdUseCase, this._onPayloadReceivedUseCase)
+  ScanCubit(
+      this._getName,
+      this._addChatUseCase,
+      this._connectionsController,
+      this._getUid,
+      this._getDeviceIdUseCase,
+      this._onPayloadReceivedUseCase,
+      this._onPayloadTransferUpdateUseCase)
       : super(ScanState.initial());
 
   final AddChatUseCase _addChatUseCase;
@@ -30,6 +37,7 @@ class ScanCubit extends SafeCubit<ScanState> {
   final GetUidUseCase _getUid;
   final GetDeviceIdUseCase _getDeviceIdUseCase;
   final OnPayloadReceivedUseCase _onPayloadReceivedUseCase;
+  final OnPayloadTransferUpdateUseCase _onPayloadTransferUpdateUseCase;
 
   StreamSubscription<Map<String, String>>? _connectionsSubscription;
 
@@ -112,6 +120,10 @@ class ScanCubit extends SafeCubit<ScanState> {
                     endpointId: endpointId,
                     payload: payload,
                     name: info.endpointName),
+            onPayloadTransferUpdate:
+                (endpointId, payloadTransferUpdate) async =>
+                    await _onPayloadTransferUpdateUseCase(
+                        endpointId, payloadTransferUpdate),
           );
         },
         onConnectionResult: (id, status) async {
