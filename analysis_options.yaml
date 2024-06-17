@@ -1,0 +1,33 @@
+include: package:linteo/analysis_options.yaml
+
+analyzer:
+  errors:
+    missing_required_param: error
+    body_might_complete_normally_nullable: ignore
+    use_key_in_widget_constructors: ignore
+    avoid_positional_boolean_parameters: ignore
+  language:
+    strict-casts: true
+  exclude:
+    - "**.gr.dart"
+    - "**.graphql.dart"
+    - "**.graphql"
+    - "**.freezed.dart"
+    - "**.g.dart"
+    - "**.config.dart"
+    - "ios/**"
+    - "android/**"
+    - "build/**"
+    - "bin/cache/**"
+    - "assets/**"
+    - "lib/generated/**"
+
+linter:
+  rules:
+    require_trailing_commas: false
+
+dart_code_metrics:
+  metrics:
+    lines-of-code: 80
+    maximum-nesting-level: 3
+    number-of-parameters: 2
