@@ -9,6 +9,7 @@ import 'package:neartalk/domain/chat/use_cases/add_chat_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/add_message_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
 import 'package:neartalk/domain/connections/use_cases/get_device_id_use_case.dart';
+import 'package:neartalk/domain/notifications/notifications_controller.dart';
 import 'package:neartalk/main.dart';
 
 @inject
@@ -18,12 +19,14 @@ class OnPayloadReceivedUseCase {
     this._addMessageUseCase,
     this._connectionsController,
     this._getDeviceIdUseCase,
+    this._notificationsController,
   );
 
   final AddChatUseCase _addChatUseCase;
   final AddMessageUseCase _addMessageUseCase;
   final ConnectionsController _connectionsController;
   final GetDeviceIdUseCase _getDeviceIdUseCase;
+  final NotificationsController _notificationsController;
 
   Future<void> call({
     required String endpointId,
@@ -54,6 +57,10 @@ class OnPayloadReceivedUseCase {
         return;
       }
 
+      await _notificationsController.showNotification(
+          id: DateTime.now().millisecondsSinceEpoch,
+          title: name,
+          body: utf8.decode(payload.bytes?.toList() ?? []));
       await _addMessageUseCase(
           deviceId,
           Message(

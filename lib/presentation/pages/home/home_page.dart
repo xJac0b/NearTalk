@@ -23,6 +23,19 @@ class HomePage extends HookWidget {
     final state = useBlocBuilder(cubit);
     useStream(cubit.watchChatUseCase());
 
+    final appLifecycleState = useAppLifecycleState();
+
+    useEffect(() {
+      if (appLifecycleState == AppLifecycleState.paused ||
+          appLifecycleState == AppLifecycleState.inactive) {
+        cubit.enableNotifications();
+      } else {
+        cubit.disableNotifications();
+      }
+
+      return null;
+    }, [appLifecycleState]);
+
     useEffect(
       () {
         cubit.init();

@@ -11,6 +11,7 @@ import 'package:neartalk/domain/chat/use_cases/on_payload_received_use_case.dart
 import 'package:neartalk/domain/chat/use_cases/on_payload_transfer_update_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/watch_chat_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
+import 'package:neartalk/domain/notifications/notifications_controller.dart';
 import 'package:neartalk/domain/settings/use_cases/get_name_use_case.dart';
 import 'package:neartalk/domain/settings/visibility_controller.dart';
 import 'package:neartalk/domain/uid/use_cases/get_uid_use_case.dart';
@@ -31,6 +32,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
     this._getUid,
     this._onPayloadReceivedUseCase,
     this._onPayloadTransferUpdateUseCase,
+    this._notificationsController,
   ) : super(HomeState.initial());
 
   final GetNameUseCase _getName;
@@ -41,6 +43,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
   final GetUidUseCase _getUid;
   final OnPayloadReceivedUseCase _onPayloadReceivedUseCase;
   final OnPayloadTransferUpdateUseCase _onPayloadTransferUpdateUseCase;
+  final NotificationsController _notificationsController;
 
   Future<void> init() async {
     await loadChats();
@@ -119,5 +122,13 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
       onPayloadTransferUpdate: (endpointId, payloadTransferUpdate) =>
           _onPayloadTransferUpdateUseCase(endpointId, payloadTransferUpdate),
     );
+  }
+
+  void enableNotifications() {
+    _notificationsController.enable();
+  }
+
+  void disableNotifications() {
+    _notificationsController.disable();
   }
 }
