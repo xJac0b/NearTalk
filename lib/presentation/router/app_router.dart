@@ -53,10 +53,10 @@ class SettingsRoute extends GoRouteData {
 }
 
 class NameRoute extends GoRouteData {
-  const NameRoute();
-
+  const NameRoute({this.id = ''});
+  final String id;
   @override
-  Widget build(BuildContext context, GoRouterState state) => const NamePage();
+  Widget build(BuildContext context, GoRouterState state) => NamePage(id: id);
 }
 
 class ThemeRoute extends GoRouteData {
@@ -97,7 +97,9 @@ class GalleryRoute extends GoRouteData {
 @TypedGoRoute<ChatRoute>(
   path: Routes.chat,
   routes: [
-    TypedGoRoute<ChatInfoRoute>(path: Routes.chatInfo),
+    TypedGoRoute<ChatInfoRoute>(
+      path: Routes.chatInfo,
+    ),
   ],
 )
 class ChatRoute extends GoRouteData {

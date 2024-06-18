@@ -106,4 +106,10 @@ class ChatDataSource {
     Logger().e(newFilePath);
     return newFilePath;
   }
+
+  Future<void> renameChat(String chatId, String name) async {
+    final chat = _chatBox.get(chatId);
+    if (chat == null) return;
+    await _chatBox.put(chatId, chat.copyWith(name: name));
+  }
 }

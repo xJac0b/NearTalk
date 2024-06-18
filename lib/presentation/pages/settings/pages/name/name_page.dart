@@ -9,8 +9,8 @@ import 'package:neartalk/presentation/styles/app_spacings.dart';
 import 'package:neartalk/presentation/styles/app_typography.dart';
 
 class NamePage extends HookWidget {
-  const NamePage({super.key});
-
+  const NamePage({required this.id, super.key});
+  final String id;
   @override
   Widget build(BuildContext context) {
     final cubit = useBloc<NameCubit>();
@@ -19,49 +19,51 @@ class NamePage extends HookWidget {
 
     useEffect(
       () {
-        cubit.loadName(name);
+        cubit.loadName(id, name);
         return null;
       },
       [],
     );
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            centerTitle: true,
-            title: const Text(
-              'Name',
-            ),
-            toolbarHeight: kToolbarHeight.h,
-          ),
-          SliverPadding(
-            padding: EdgeInsetsX.all(AppSpacings.twentyFour),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate.fixed([
-                TextField(
-                  controller: name,
-                  style: AppTypography.of(context).body,
-                  decoration: const InputDecoration(
-                    labelText: 'Device name',
+      body: state.maybeMap(
+          error: (value) => const Center(child: Text('Something went wrong')),
+          orElse: () => CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    centerTitle: true,
+                    title: const Text(
+                      'Name',
+                    ),
+                    toolbarHeight: kToolbarHeight.h,
                   ),
-                ),
-                SizedBox(height: AppSpacings.twentyFour.h),
-                state.maybeMap(
-                  loading: (_) => const ElevatedButton(
-                    onPressed: null,
-                    child: LoadingIndicator(),
+                  SliverPadding(
+                    padding: EdgeInsetsX.all(AppSpacings.twentyFour),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate.fixed([
+                        TextField(
+                          controller: name,
+                          style: AppTypography.of(context).body,
+                          decoration: const InputDecoration(
+                            labelText: 'Device name',
+                          ),
+                        ),
+                        SizedBox(height: AppSpacings.twentyFour.h),
+                        state.maybeMap(
+                          loading: (_) => const ElevatedButton(
+                            onPressed: null,
+                            child: LoadingIndicator(),
+                          ),
+                          orElse: () => ElevatedButton(
+                            onPressed: () => cubit.changeName(name.text.trim()),
+                            child: const Text('Save'),
+                          ),
+                        ),
+                      ]),
+                    ),
                   ),
-                  orElse: () => ElevatedButton(
-                    onPressed: () => cubit.changeName(name.text.trim()),
-                    child: const Text('Save'),
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ],
-      ),
+                ],
+              )),
     );
   }
 }

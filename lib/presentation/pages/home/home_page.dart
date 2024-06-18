@@ -10,6 +10,7 @@ import 'package:neartalk/presentation/router/app_router.dart';
 import 'package:neartalk/presentation/router/routes.dart';
 import 'package:neartalk/presentation/shared/app_bar_widget.dart';
 import 'package:neartalk/presentation/shared/avatar.dart';
+import 'package:neartalk/presentation/styles/app_dimens.dart';
 import 'package:neartalk/presentation/styles/app_spacings.dart';
 import 'package:neartalk/presentation/styles/app_typography.dart';
 
@@ -93,32 +94,6 @@ class HomePage extends HookWidget {
                   ),
                   onPressed: () => const SettingsRoute().go(context),
                 ),
-                // IconButton(
-                //   icon: const Icon(Icons.clean_hands),
-                //   onPressed: () async => await Hive.box<Chat>('chat').clear(),
-                // ),
-                // IconButton(
-                //   icon: const Icon(Icons.plus_one),
-                //   onPressed: () async {
-                //     final chat = Chat(
-                //       id: const Uuid().v4(),
-                //       endpointId: UniqueKey().toString(),
-                //       name: 'Jacob',
-                //       paths: [],
-                //       messages: [],
-                //     );
-                //     final chatBox = Hive.box<Chat>('chat');
-                //     final message = Message(
-                //       id: '1',
-                //       text: 'ha',
-                //       timestamp: DateTime(2000),
-                //       me: false,
-                //     );
-                //     chat.messages.add(message);
-                //     // chat.messages.add(message);
-                //     await chatBox.put(chat.id, chat);
-                //   },
-                // ),
               ],
             ),
             if (state.chats.isEmpty)
@@ -141,6 +116,7 @@ class HomePage extends HookWidget {
                   titleAlignment: ListTileTitleAlignment.center,
                   leading: Avatar(
                     path: chat.avatarPath,
+                    radius: AppDimens.circleAvatarRadiusMedium,
                   ),
                   title: Text(chat.name.isEmpty ? chat.id : chat.name,
                       style: AppTypography.of(context).subtitle),

@@ -26,15 +26,22 @@ class GalleryPage extends HookWidget {
     final showAppBar = useState(true);
     final controller = usePageController(initialPage: initialIndex);
     return Scaffold(
+      backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       appBar: showAppBar.value
           ? AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
               toolbarHeight: kToolbarHeight.h,
               backgroundColor: Colors.transparent,
-              title: Text(chatName),
+              title:
+                  Text(chatName, style: const TextStyle(color: Colors.white)),
               actions: [
                 IconButton(
-                  icon: const Icon(FontAwesomeIcons.download),
+                  icon: const Icon(FontAwesomeIcons.download,
+                      color: Colors.white),
                   onPressed: () {
                     if (controller.page == null) return;
                     final int index = controller.page!.round();
@@ -63,10 +70,13 @@ class GalleryPage extends HookWidget {
             },
             itemCount: galleryItems.length,
 
-            loadingBuilder: (context, event) => LoadingIndicator(
-              value: event == null
-                  ? 0
-                  : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+            loadingBuilder: (context, event) => ColoredBox(
+              color: Colors.black,
+              child: LoadingIndicator(
+                value: event == null
+                    ? 0
+                    : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
+              ),
             ),
             // backgroundDecoration: backgroundDecoration,
             pageController: controller,

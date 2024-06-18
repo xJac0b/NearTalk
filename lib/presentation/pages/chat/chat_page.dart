@@ -77,7 +77,7 @@ class ChatPage extends HookWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                cacheExtent: 1000,
+                cacheExtent: 10000,
                 reverse: true,
                 itemBuilder: (context, index) {
                   final messages = state.chat.messages.reversed.toList();

@@ -7,6 +7,7 @@ import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:neartalk/core/extensions.dart';
 import 'package:neartalk/presentation/pages/chat_info/cubit/chat_info_cubit.dart';
 import 'package:neartalk/presentation/pages/settings/widgets/settings_button.dart';
+import 'package:neartalk/presentation/router/app_router.dart';
 import 'package:neartalk/presentation/shared/app_bar_widget.dart';
 import 'package:neartalk/presentation/shared/avatar.dart';
 import 'package:neartalk/presentation/styles/app_dimens.dart';
@@ -53,18 +54,25 @@ class ChatInfoPage extends HookWidget {
                         ),
                         SizedBox(height: AppSpacings.sixteen.h),
                         Column(children: [
-                          Center(
-                            child: SettingsButton(
-                              leading: const Icon(
-                                FontAwesomeIcons.trash,
-                              ),
-                              text: 'Remove chat',
-                              onTap: () {
-                                cubit.deleteChat(id);
-                                context.pop();
-                                context.pop();
-                              },
+                          SettingsButton(
+                            leading: const Icon(
+                              FontAwesomeIcons.userTag,
                             ),
+                            text: 'Rename chat',
+                            onTap: () {
+                              NameRoute(id: id).push<void>(context);
+                            },
+                          ),
+                          SettingsButton(
+                            leading: const Icon(
+                              FontAwesomeIcons.trash,
+                            ),
+                            text: 'Remove chat',
+                            onTap: () {
+                              cubit.deleteChat(id);
+                              context.pop();
+                              context.pop();
+                            },
                           ),
                           if (value.isConnected)
                             SettingsButton(

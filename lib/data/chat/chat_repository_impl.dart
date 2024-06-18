@@ -44,4 +44,8 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<String> uploadFile(String chatId, String path,
           {bool useNearby = false}) =>
       _chatDataSource.uploadFile(chatId, path, useNearby: useNearby);
+
+  @override
+  Future<void> renameChat(String chatId, String name) =>
+      _chatDataSource.renameChat(chatId, name);
 }
