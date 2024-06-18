@@ -86,6 +86,10 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
         onConnectionInitiated: (String id, ConnectionInfo info) async {
           // Called whenever a discoverer requests connection
           Logger().i('Connection initiated: $id, $info');
+          await _notificationsController.showNotification(
+            title: 'Connection request',
+            body: 'Devcie ${info.endpointName} wants to connect',
+          );
           dispatch(HomeAction.connectionRequest(id, info));
         },
         onConnectionResult: (String id, Status status) async {
