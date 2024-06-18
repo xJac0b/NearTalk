@@ -10,7 +10,6 @@ import 'package:neartalk/domain/chat/use_cases/add_message_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
 import 'package:neartalk/domain/connections/use_cases/get_device_id_use_case.dart';
 import 'package:neartalk/domain/notifications/notifications_controller.dart';
-import 'package:neartalk/main.dart';
 
 @inject
 class OnPayloadReceivedUseCase {

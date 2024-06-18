@@ -15,9 +15,6 @@ import 'package:path_provider/path_provider.dart';
 
 Directory appDocumentsDir = Directory('');
 
-// TODO(me): Remove this global variable
-Map<int, ({String deviceId, String uri})> filesToUpload = {};
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final Directory documentDirectory = await getApplicationDocumentsDirectory();

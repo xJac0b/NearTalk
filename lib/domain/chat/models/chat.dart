@@ -3,6 +3,9 @@ import 'package:neartalk/domain/chat/models/message.dart';
 
 part 'chat.g.dart';
 
+// TODO(me): Remove this global variable
+Map<int, ({String deviceId, String uri})> filesToUpload = {};
+
 @HiveType(typeId: 1)
 class Chat extends HiveObject {
   Chat({

@@ -1,8 +1,8 @@
 import 'package:injecteo/injecteo.dart';
 import 'package:logger/logger.dart';
 import 'package:nearby_connections/nearby_connections.dart';
+import 'package:neartalk/domain/chat/models/chat.dart';
 import 'package:neartalk/domain/chat/use_cases/on_payload_transfer_success_use_case.dart';
-import 'package:neartalk/main.dart';
 
 @inject
 class OnPayloadTransferUpdateUseCase {

@@ -68,7 +68,7 @@ class ScanCubit extends SafeCubit<ScanState> {
           scanResults.remove(id);
           emit(state.copyWith(scanResults: scanResults));
         },
-        serviceId: 'com.yourdomain.bluetoothy',
+        serviceId: 'com.jpietruch.neartalk',
       );
     } catch (e) {
       Logger().e(e);

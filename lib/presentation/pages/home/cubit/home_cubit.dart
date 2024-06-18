@@ -88,7 +88,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
           Logger().i('Connection initiated: $id, $info');
           await _notificationsController.showNotification(
             title: 'Connection request',
-            body: 'Devcie ${info.endpointName} wants to connect',
+            body: 'Device ${info.endpointName} wants to connect',
           );
           dispatch(HomeAction.connectionRequest(id, info));
         },
@@ -106,7 +106,7 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
           Logger().i('Disconnected: $id');
           _connectionsController.removeConnection(id);
         },
-        serviceId: 'com.yourdomain.bluetoothy', // uniquely identifies your app
+        serviceId: 'com.jpietruch.neartalk', // uniquely identifies your app
       );
     } catch (exception) {
       Logger().e(exception);
