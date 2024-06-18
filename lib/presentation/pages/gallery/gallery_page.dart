@@ -70,13 +70,10 @@ class GalleryPage extends HookWidget {
             },
             itemCount: galleryItems.length,
 
-            loadingBuilder: (context, event) => ColoredBox(
-              color: Colors.black,
-              child: LoadingIndicator(
-                value: event == null
-                    ? 0
-                    : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
-              ),
+            loadingBuilder: (context, event) => LoadingIndicator(
+              value: event == null
+                  ? 0
+                  : event.cumulativeBytesLoaded / event.expectedTotalBytes!,
             ),
             // backgroundDecoration: backgroundDecoration,
             pageController: controller,
