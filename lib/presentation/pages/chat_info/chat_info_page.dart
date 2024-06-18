@@ -59,8 +59,9 @@ class ChatInfoPage extends HookWidget {
                               FontAwesomeIcons.userTag,
                             ),
                             text: 'Rename chat',
-                            onTap: () {
-                              NameRoute(id: id).push<void>(context);
+                            onTap: () async {
+                              await NameRoute(id: id).push<void>(context);
+                              await cubit.loadChat(id);
                             },
                           ),
                           SettingsButton(
