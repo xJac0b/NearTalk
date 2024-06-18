@@ -32,6 +32,10 @@ class ChatDataSource {
 
   Future<void> deleteChat(String id) async {
     await _chatBox.delete(id);
+    final Directory filesDir = Directory('${appDocumentsDir.path}/files/$id');
+    if (filesDir.existsSync()) {
+      filesDir.deleteSync();
+    }
   }
 
   Future<List<Chat>> getChats() async {
