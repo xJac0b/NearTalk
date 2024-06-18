@@ -173,7 +173,7 @@ class ScanPage extends HookWidget {
               ),
             ),
             LoadingAnimationWidget.prograssiveDots(
-                color: Colors.white, size: 40.w),
+                color: context.colors.text, size: 40.w),
           ],
         ),
       ),
