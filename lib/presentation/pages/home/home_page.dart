@@ -10,6 +10,7 @@ import 'package:neartalk/presentation/router/app_router.dart';
 import 'package:neartalk/presentation/router/routes.dart';
 import 'package:neartalk/presentation/shared/app_bar_widget.dart';
 import 'package:neartalk/presentation/shared/avatar.dart';
+import 'package:neartalk/presentation/shared/extensions/app_theme_extension.dart';
 import 'package:neartalk/presentation/styles/app_dimens.dart';
 import 'package:neartalk/presentation/styles/app_spacings.dart';
 import 'package:neartalk/presentation/styles/app_typography.dart';
@@ -50,28 +51,30 @@ class HomePage extends HookWidget {
               ConnectionRequest(:final id, :final info) => showDialog<void>(
                   context: context,
                   builder: (ctx) => AlertDialog(
+                        actionsPadding: EdgeInsetsX.all(AppSpacings.sixteen),
+                        actionsAlignment: MainAxisAlignment.spaceEvenly,
+                        backgroundColor: context.colors.surface,
                         title: Text('Connection request',
                             style: AppTypography.of(context).h6),
                         content: Text(
                             'Do you want to connect with ${info.endpointName}?',
                             style: AppTypography.of(context).caption),
                         actions: [
-                          TextButton(
+                          ElevatedButton(
                             onPressed: () {
                               Navigator.of(ctx).pop();
                               cubit.acceptConnection(id, info.endpointName);
                             },
                             child: Text('Accept',
-                                style: AppTypography.of(context).overline),
+                                style: AppTypography.of(context).buttonSmall),
                           ),
-                          SizedBox(width: 8.w),
-                          TextButton(
+                          ElevatedButton(
                             onPressed: () {
                               Navigator.of(ctx).pop();
                               Nearby().rejectConnection(id);
                             },
                             child: Text('Reject',
-                                style: AppTypography.of(context).overline),
+                                style: AppTypography.of(context).buttonSmall),
                           ),
                         ],
                       )),

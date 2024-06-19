@@ -149,7 +149,6 @@ class AppTypography {
   TextStyle get buttonSmall => TextStyle(
         fontFamily: fontFamily,
         fontSize: 12.sp,
-        height: 1.83,
         color: buttonTextColor,
         fontWeight: FontWeight.w500,
       );
