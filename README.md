@@ -27,6 +27,7 @@ NearTalk is a simple, peer-to-peer chat application built using Flutter. It leve
 <img src="assets/screenshots/2light.jpg" width="200">
 <img src="assets/screenshots/3light.jpg" width="200">
 </p>
+
 ## Contributing 🤝
 
 Contributions are welcome! If you have suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
