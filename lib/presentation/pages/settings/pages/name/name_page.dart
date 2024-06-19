@@ -28,6 +28,7 @@ class NamePage extends HookWidget {
     return Scaffold(
       body: state.maybeMap(
           error: (value) => const Center(child: Text('Something went wrong')),
+          loading: (value) => const Center(child: LoadingIndicator()),
           orElse: () => CustomScrollView(
                 slivers: [
                   SliverAppBar(

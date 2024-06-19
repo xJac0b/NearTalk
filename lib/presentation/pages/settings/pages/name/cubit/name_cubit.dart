@@ -21,7 +21,7 @@ class NameCubit extends SafeCubit<NameState> {
     this._getName,
     this._getChat,
     this._renameChat,
-  ) : super(const NameState.initial());
+  ) : super(const NameState.loading());
 
   final SaveNameUseCase _changeName;
   final GetNameUseCase _getName;
@@ -45,6 +45,7 @@ class NameCubit extends SafeCubit<NameState> {
       name = chat.name;
     }
     controller.text = name;
+    emit(const NameState.initial());
   }
 
   Future<void> changeName(String name) async {
