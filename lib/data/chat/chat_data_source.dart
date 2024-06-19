@@ -34,7 +34,7 @@ class ChatDataSource {
     await _chatBox.delete(id);
     final Directory filesDir = Directory('${appDocumentsDir.path}/files/$id');
     if (filesDir.existsSync()) {
-      filesDir.deleteSync();
+      filesDir.deleteSync(recursive: true);
     }
   }
 
