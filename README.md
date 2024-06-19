@@ -17,7 +17,16 @@ NearTalk is a simple, peer-to-peer chat application built using Flutter. It leve
 - **Emergency Situations**: Use NearTalk to communicate in emergency situations where traditional networks are down.
 
 ## Screenshots 📸
-
+<p float="left" align="center">
+<img src="assets/screenshots/1dark.jpg" width="200">
+<img src="assets/screenshots/2dark.jpg" width="200">
+<img src="assets/screenshots/3dark.jpg" width="200">
+</p>
+<p float="left" align="center">
+<img src="assets/screenshots/1light.jpg" width="200">
+<img src="assets/screenshots/2light.jpg" width="200">
+<img src="assets/screenshots/3light.jpg" width="200">
+</p>
 ## Contributing 🤝
 
 Contributions are welcome! If you have suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
