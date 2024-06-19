@@ -11,6 +11,7 @@ import 'package:neartalk/presentation/router/routes.dart';
 import 'package:neartalk/presentation/shared/app_bar_widget.dart';
 import 'package:neartalk/presentation/shared/avatar.dart';
 import 'package:neartalk/presentation/shared/extensions/app_theme_extension.dart';
+import 'package:neartalk/presentation/shared/search_field.dart';
 import 'package:neartalk/presentation/styles/app_dimens.dart';
 import 'package:neartalk/presentation/styles/app_spacings.dart';
 import 'package:neartalk/presentation/styles/app_typography.dart';
@@ -22,6 +23,8 @@ class HomePage extends HookWidget {
   Widget build(BuildContext context) {
     final cubit = useBloc<HomeCubit>();
     final state = useBlocBuilder(cubit);
+    final searchController = useTextEditingController();
+    useListenable(searchController);
     useStream(cubit.watchChatUseCase());
 
     final appLifecycleState = useAppLifecycleState();
@@ -87,12 +90,11 @@ class HomePage extends HookWidget {
         body: CustomScrollView(
           slivers: [
             AppBarWidget(
-              centerTitle: true,
               pinned: true,
               floating: true,
               title: 'NearTalk',
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(20.h),
+                preferredSize: Size.fromHeight(22.h),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
@@ -112,7 +114,7 @@ class HomePage extends HookWidget {
                 ),
               ],
             ),
-            if (state.chats.isEmpty)
+            if (state.chats.isEmpty) ...[
               SliverFillRemaining(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -124,39 +126,148 @@ class HomePage extends HookWidget {
                       style: AppTypography.of(context).subtitle,
                     ),
                   ])),
-            SliverList.builder(
-              itemCount: state.chats.length,
-              itemBuilder: (context, index) {
-                final chat = state.chats[index];
-                return Padding(
-                  padding: EdgeInsets.only(top: AppSpacings.six.h),
-                  child: ListTile(
-                    titleAlignment: ListTileTitleAlignment.center,
-                    leading: Avatar(
-                      path: chat.avatarPath,
-                      radius: AppDimens.circleAvatarRadiusMedium,
+            ] else ...[
+              SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AppSpacings.twelve.h),
+                    Center(
+                      child: SearchField(
+                        controller: searchController,
+                      ),
                     ),
-                    title: Text(chat.name.isEmpty ? chat.id : chat.name,
-                        style: AppTypography.of(context).subtitle),
-                    subtitle: chat.messages.isEmpty
-                        ? null
-                        : Text(
-                            chat.messages.last.text.isEmpty
-                                ? 'Photo'
-                                : chat.messages.last.text,
-                            style: AppTypography.of(context).caption,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                    trailing: chat.messages.isEmpty
-                        ? null
-                        : Text(chat.messages.last.timestamp.formatX(context),
-                            style: AppTypography.of(context).caption),
-                    onTap: () => context.push(Routes.chat, extra: chat.id),
-                  ),
-                );
-              },
-            ),
+                    SizedBox(height: AppSpacings.twelve.h),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: AppSpacings.eight.w),
+                      child: Text(
+                        'Connected chats',
+                        style: AppTypography.of(context).subtitle,
+                      ),
+                    ),
+                    SizedBox(
+                      height: AppSpacings.eight.h,
+                    ),
+                    if (state.connectedChats.isEmpty)
+                      Center(
+                        child: Text(
+                          'No connected chats',
+                          style: AppTypography.of(context).caption,
+                        ),
+                      )
+                    else
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 105.h),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: state.connectedChats.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final chat = state.connectedChats[index];
+                            if (chat.name.toLowerCase().trim().contains(
+                                searchController.text.toLowerCase().trim())) {
+                              return Padding(
+                                padding: EdgeInsetsX.all(AppSpacings.eight),
+                                child: InkWell(
+                                  onTap: () => context.push(
+                                    Routes.chat,
+                                    extra: chat.chatId,
+                                  ),
+                                  child: SizedBox(
+                                    width: 70.w,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Avatar(
+                                          path: chat.avatarPath,
+                                          radius:
+                                              AppDimens.circleAvatarRadiusLarge,
+                                        ),
+                                        Text(
+                                          chat.name,
+                                          style:
+                                              AppTypography.of(context).caption,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: AppSpacings.eight.w),
+                      child: Text(
+                        'All chats',
+                        style: AppTypography.of(context).subtitle,
+                      ),
+                    ),
+                    SizedBox(
+                      height: AppSpacings.eight.h,
+                    ),
+                  ],
+                ),
+              ),
+              SliverList.builder(
+                itemCount: state.chats.length,
+                itemBuilder: (context, index) {
+                  final chat = state.chats[index];
+                  if (chat.name
+                      .toLowerCase()
+                      .trim()
+                      .contains(searchController.text.toLowerCase().trim())) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          top: AppSpacings.six.h,
+                          left: AppSpacings.eight.w,
+                          right: AppSpacings.eight.w),
+                      child: InkWell(
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Avatar(
+                                  path: chat.avatarPath,
+                                  radius: AppDimens.circleAvatarRadiusMedium),
+                              SizedBox(width: AppSpacings.twelve.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(chat.name.isEmpty ? chat.id : chat.name,
+                                      style:
+                                          AppTypography.of(context).subtitle),
+                                  if (chat.messages.isNotEmpty)
+                                    Text(
+                                      chat.messages.last.text.isEmpty
+                                          ? 'Photo'
+                                          : chat.messages.last.text,
+                                      style: AppTypography.of(context).caption,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                ],
+                              ),
+                              const Spacer(),
+                              if (chat.messages.isNotEmpty)
+                                Text(
+                                    chat.messages.last.timestamp
+                                        .formatX(context),
+                                    style: AppTypography.of(context).caption),
+                            ]),
+                        onTap: () => context.push(Routes.chat, extra: chat.id),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ]
           ],
         ),
         floatingActionButton: FloatingActionButton(

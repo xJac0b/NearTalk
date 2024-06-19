@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -6,11 +7,13 @@ import 'package:injecteo/injecteo.dart';
 import 'package:logger/logger.dart';
 import 'package:nearby_connections/nearby_connections.dart';
 import 'package:neartalk/domain/chat/models/chat.dart';
+import 'package:neartalk/domain/chat/use_cases/get_chat_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/get_chats_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/on_payload_received_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/on_payload_transfer_update_use_case.dart';
 import 'package:neartalk/domain/chat/use_cases/watch_chat_use_case.dart';
 import 'package:neartalk/domain/connections/connections_controller.dart';
+import 'package:neartalk/domain/connections/connections_repository.dart';
 import 'package:neartalk/domain/notifications/notifications_controller.dart';
 import 'package:neartalk/domain/settings/use_cases/get_name_use_case.dart';
 import 'package:neartalk/domain/settings/visibility_controller.dart';
@@ -33,32 +36,54 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
     this._onPayloadReceivedUseCase,
     this._onPayloadTransferUpdateUseCase,
     this._notificationsController,
+    this._getChatUseCase,
   ) : super(HomeState.initial());
 
   final GetNameUseCase _getName;
   final VisibilityController _visibilityController;
   final GetChatsUseCase _getChatsUseCase;
+  final GetChatUseCase _getChatUseCase;
   final WatchChatUseCase watchChatUseCase;
   final ConnectionsController _connectionsController;
   final GetUidUseCase _getUid;
   final OnPayloadReceivedUseCase _onPayloadReceivedUseCase;
   final OnPayloadTransferUpdateUseCase _onPayloadTransferUpdateUseCase;
   final NotificationsController _notificationsController;
+  StreamSubscription<Connections>? _connectionsSubscription;
 
   Future<void> init() async {
     await loadChats();
-    _visibilityController.stream.listen((isVisible) {
+    _visibilityController.stream.listen((isVisible) async {
       if (isVisible) {
-        startAdvertising();
+        await startAdvertising();
       } else {
-        Nearby().stopAdvertising();
+        await Nearby().stopAdvertising();
       }
       emit(state.copyWith(isVisible: isVisible));
     });
 
     watchChatUseCase().listen((event) async {
       await loadChats();
+      await loadConnectedChats(
+          state.connectedChats.map((chat) => chat.chatId).toList());
     });
+
+    _connectionsSubscription =
+        _connectionsController.stream.listen((connections) async {
+      await loadConnectedChats(connections.values.toList());
+    });
+  }
+
+  Future<void> loadConnectedChats(List<String> chatIds) async {
+    final connectedChats =
+        <({String chatId, String? avatarPath, String name})>[];
+    for (final chatId in chatIds) {
+      final chat = await _getChatUseCase(chatId);
+      if (chat == null) return;
+      connectedChats
+          .add((chatId: chatId, avatarPath: chat.avatarPath, name: chat.name));
+    }
+    emit(state.copyWith(connectedChats: connectedChats));
   }
 
   Future<void> loadChats() async {
@@ -134,5 +159,11 @@ class HomeCubit extends SafeActionCubit<HomeState, HomeAction> {
 
   void disableNotifications() {
     _notificationsController.disable();
+  }
+
+  @override
+  Future<void> close() {
+    _connectionsSubscription?.cancel();
+    return super.close();
   }
 }
