@@ -10,10 +10,11 @@ extension EdgeInsetsX on EdgeInsets {
 extension DateTimeExtension on DateTime {
   String formatX(BuildContext context) {
     final dateDifference = DateTime.now().difference(this);
-    final fromToday = dateDifference.inDays == 0;
-    final fromThisYear = dateDifference.inDays < 365;
+    final fromToday = DateTime.now().day == day && dateDifference.inDays == 0;
+    final fromThisYear =
+        dateDifference.inDays < 365 && year == DateTime.now().year;
     return fromToday
-        ? DateFormat('hh:mm').format(this)
+        ? DateFormat('hh:mm a').format(this)
         : fromThisYear
             ? DateFormat('MMM d').format(this)
             : DateFormat('MMM d, y').format(this);
