@@ -25,38 +25,40 @@ class PermissionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: AppSpacings.sixteen.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          PermissionCard(
-            icon: Icons.location_on,
-            granted: location,
-            onTap: () => cubit.requestLocation(),
-          ),
-          PermissionCard(
-            icon: Icons.storage,
-            granted: storage,
-            onTap: () => cubit.requestStorage(),
-          ),
-          PermissionCard(
-            icon: Icons.bluetooth,
-            granted: bluetooth,
-            onTap: () => cubit.requestBluetooth(),
-          ),
-          PermissionCard(
-            icon: Icons.wifi,
-            granted: wifi,
-            onTap: () => cubit.requestWifi(),
-          ),
-          SizedBox(height: AppSpacings.sixteen.h),
-          if (location && storage && bluetooth)
-            ElevatedButton(
-              onPressed: () => context.go(Routes.home),
-              child: const Text('Continue'),
-            )
-        ],
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSpacings.sixteen.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PermissionCard(
+              icon: Icons.location_on,
+              granted: location,
+              onTap: () => cubit.requestLocation(),
+            ),
+            PermissionCard(
+              icon: Icons.storage,
+              granted: storage,
+              onTap: () => cubit.requestStorage(),
+            ),
+            PermissionCard(
+              icon: Icons.bluetooth,
+              granted: bluetooth,
+              onTap: () => cubit.requestBluetooth(),
+            ),
+            PermissionCard(
+              icon: Icons.wifi,
+              granted: wifi,
+              onTap: () => cubit.requestWifi(),
+            ),
+            SizedBox(height: AppSpacings.sixteen.h),
+            if (location && storage && bluetooth)
+              ElevatedButton(
+                onPressed: () => context.go(Routes.home),
+                child: const Text('Continue'),
+              )
+          ],
+        ),
       ),
     );
   }

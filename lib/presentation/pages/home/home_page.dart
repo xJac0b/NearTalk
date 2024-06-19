@@ -125,29 +125,32 @@ class HomePage extends HookWidget {
               itemCount: state.chats.length,
               itemBuilder: (context, index) {
                 final chat = state.chats[index];
-                return ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  leading: Avatar(
-                    path: chat.avatarPath,
-                    radius: AppDimens.circleAvatarRadiusMedium,
+                return Padding(
+                  padding: EdgeInsets.only(top: AppSpacings.six.h),
+                  child: ListTile(
+                    titleAlignment: ListTileTitleAlignment.center,
+                    leading: Avatar(
+                      path: chat.avatarPath,
+                      radius: AppDimens.circleAvatarRadiusMedium,
+                    ),
+                    title: Text(chat.name.isEmpty ? chat.id : chat.name,
+                        style: AppTypography.of(context).subtitle),
+                    subtitle: chat.messages.isEmpty
+                        ? null
+                        : Text(
+                            chat.messages.last.text.isEmpty
+                                ? 'Photo'
+                                : chat.messages.last.text,
+                            style: AppTypography.of(context).caption,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                    trailing: chat.messages.isEmpty
+                        ? null
+                        : Text(chat.messages.last.timestamp.formatX(context),
+                            style: AppTypography.of(context).caption),
+                    onTap: () => context.push(Routes.chat, extra: chat.id),
                   ),
-                  title: Text(chat.name.isEmpty ? chat.id : chat.name,
-                      style: AppTypography.of(context).subtitle),
-                  subtitle: chat.messages.isEmpty
-                      ? null
-                      : Text(
-                          chat.messages.last.text.isEmpty
-                              ? 'Photo'
-                              : chat.messages.last.text,
-                          style: AppTypography.of(context).caption,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                  trailing: chat.messages.isEmpty
-                      ? null
-                      : Text(chat.messages.last.timestamp.formatX(context),
-                          style: AppTypography.of(context).caption),
-                  onTap: () => context.push(Routes.chat, extra: chat.id),
                 );
               },
             ),

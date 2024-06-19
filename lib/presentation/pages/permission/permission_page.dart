@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
 import 'package:neartalk/presentation/pages/permission/cubit/permission_cubit.dart';
 import 'package:neartalk/presentation/pages/permission/widgets/permission_view.dart';
+import 'package:neartalk/presentation/pages/permission/widgets/splash_view.dart';
 import 'package:neartalk/presentation/router/routes.dart';
 
 class PermissionPage extends HookWidget {
@@ -21,24 +22,24 @@ class PermissionPage extends HookWidget {
               _ => null,
             });
 
-    useEffect(
-      () {
-        cubit.init();
-        return null;
-      },
-      [],
-    );
+    // useEffect(
+    //   () {
+    //     cubit.init();
+    //     return null;
+    //   },
+    //   [],
+    // );
 
-    return Scaffold(
-      body: state.map(
-        initial: (_) => const Center(child: CircularProgressIndicator()),
-        permissions: (permissions) => PermissionView(
-          cubit: cubit,
-          location: permissions.location,
-          storage: permissions.storage,
-          bluetooth: permissions.bluetooth,
-          wifi: permissions.wifi,
-        ),
+    return state.map(
+      initial: (_) => SplashView(
+        cubit: cubit,
+      ),
+      permissions: (permissions) => PermissionView(
+        cubit: cubit,
+        location: permissions.location,
+        storage: permissions.storage,
+        bluetooth: permissions.bluetooth,
+        wifi: permissions.wifi,
       ),
     );
   }

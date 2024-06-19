@@ -1,4 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injecteo/injecteo.dart';
 import 'package:location/location.dart';
@@ -38,9 +39,7 @@ class PermissionCubit
 
   Future<bool> checkStorage() async {
     // ignore: avoid_bool_literals_in_conditional_expressions
-    return sdk < 33
-        ? await Permission.storage.isGranted
-        : true;
+    return sdk < 33 ? await Permission.storage.isGranted : true;
   }
 
   Future<void> requestStorage() async {
@@ -97,5 +96,12 @@ class PermissionCubit
       ),
     );
     return false;
+  }
+
+  @override
+  Future<void> close() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    return super.close();
   }
 }

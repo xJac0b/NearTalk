@@ -31,6 +31,8 @@ class ChatPage extends HookWidget {
       return null;
     }, []);
 
+    useAutomaticKeepAlive();
+
     return Scaffold(
       appBar: state.mapOrNull(
         (state) => AppBar(

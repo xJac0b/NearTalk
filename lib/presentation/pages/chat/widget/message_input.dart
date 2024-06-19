@@ -38,6 +38,16 @@ class MessageInput extends HookWidget {
           minLines: 1,
           maxLines: 4,
           decoration: InputDecoration(
+              prefixIconColor: MaterialStateColor.resolveWith(
+                (states) => states.contains(MaterialState.focused)
+                    ? context.colors.primary
+                    : context.colors.captionText,
+              ),
+              suffixIconColor: MaterialStateColor.resolveWith(
+                (states) => states.contains(MaterialState.focused)
+                    ? context.colors.primary
+                    : context.colors.captionText,
+              ),
               prefixIcon: controller.text.isEmpty
                   ? Padding(
                       padding:
@@ -63,6 +73,12 @@ class MessageInput extends HookWidget {
                     )
                   : null,
               hintText: 'Type a message',
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(24.r),
+                borderSide: BorderSide(
+                  color: context.colors.primary,
+                ),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(24.r),
               ),

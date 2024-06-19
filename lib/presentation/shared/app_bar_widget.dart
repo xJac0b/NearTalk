@@ -31,7 +31,6 @@ class AppBarWidget extends StatelessWidget {
         title: titleWidget ??
             Text(
               title,
-              // style: AppTypography.of(context).body,
             ),
         actions: actions,
         bottom: bottom,

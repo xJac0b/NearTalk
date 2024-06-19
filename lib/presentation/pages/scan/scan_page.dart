@@ -75,7 +75,7 @@ class ScanPage extends HookWidget {
                                   EdgeInsetsX.all(AppSpacings.eight),
                               leading: state == DeviceState.requested
                                   ? const LoadingIndicator()
-                                  : const Icon(Icons.bluetooth),
+                                  : const Icon(Icons.smartphone),
                               title: Text(
                                 name,
                                 style: AppTypography.of(context).body,
