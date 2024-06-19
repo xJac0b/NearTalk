@@ -19,7 +19,7 @@ class SplashView extends HookWidget {
     final visible = useState(false);
     useEffect(() {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 3), () {
         cubit.init();
       });
       Future.delayed(const Duration(milliseconds: 100), () {
