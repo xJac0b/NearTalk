@@ -128,8 +128,10 @@ class ScanPage extends HookWidget {
                                         onPressed: () =>
                                             cubit.requestConnection(id),
                                         child: const Text('Connect')),
-                                    DeviceState.requested => const Text(
+                                    DeviceState.requested => Text(
                                         'Waiting for response...',
+                                        style:
+                                            AppTypography.of(context).caption,
                                       ),
                                     DeviceState.rejected => Row(
                                           mainAxisAlignment:
