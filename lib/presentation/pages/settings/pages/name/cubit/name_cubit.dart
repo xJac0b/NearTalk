@@ -49,16 +49,35 @@ class NameCubit extends SafeCubit<NameState> {
   }
 
   Future<void> changeName(String name) async {
-    emit(const NameState.loading());
-
     if (id.isEmpty) {
+      if (name == _getName()) {
+        emit(const NameState.initial());
+        SnackbarController.showInfo(
+          'Device name is already set to $name',
+        );
+        return;
+      }
       await _changeName(name);
     } else if (name.isNotEmpty) {
+      final chat = await _getChat(id);
+      if (chat == null) {
+        emit(const NameState.error());
+        return;
+      }
+      if (name == chat.name) {
+        emit(const NameState.initial());
+        SnackbarController.showInfo(
+          'Chat name is already set to $name',
+        );
+        return;
+      }
+
       await _renameChat(id, name);
     } else {
       SnackbarController.showError(
         'Device name cannot be empty',
       );
+      emit(const NameState.initial());
       return;
     }
 

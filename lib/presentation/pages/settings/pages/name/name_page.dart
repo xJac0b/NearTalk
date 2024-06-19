@@ -56,7 +56,10 @@ class NamePage extends HookWidget {
                             child: LoadingIndicator(),
                           ),
                           orElse: () => ElevatedButton(
-                            onPressed: () => cubit.changeName(name.text.trim()),
+                            onPressed: () => {
+                              FocusScope.of(context).unfocus(),
+                              cubit.changeName(name.text.trim())
+                            },
                             child: const Text('Save'),
                           ),
                         ),
