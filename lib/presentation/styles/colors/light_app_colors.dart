@@ -11,7 +11,7 @@ class LightAppColor extends BaseColors {
           text: const Color(0xff242424),
           captionText: const Color(0xff606060),
           buttonText: const Color(0xffFFFFFF),
-          inputBackground: const Color(0xffF3F5F7),
+          inputBackground: const Color(0xffE3E5E7),
           error: const Color(0xffFA6650),
           hint: const Color(0xffAAAAAA),
           correct: const Color(0xff00FF00),

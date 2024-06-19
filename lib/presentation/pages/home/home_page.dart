@@ -149,58 +149,59 @@ class HomePage extends HookWidget {
                     SizedBox(
                       height: AppSpacings.eight.h,
                     ),
-                    if (state.connectedChats.isEmpty)
-                      Center(
-                        child: Text(
-                          'No connected chats',
-                          style: AppTypography.of(context).caption,
-                        ),
-                      )
-                    else
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 105.h),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: state.connectedChats.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final chat = state.connectedChats[index];
-                            if (chat.name.toLowerCase().trim().contains(
-                                searchController.text.toLowerCase().trim())) {
-                              return Padding(
-                                padding: EdgeInsetsX.all(AppSpacings.eight),
-                                child: InkWell(
-                                  onTap: () => context.push(
-                                    Routes.chat,
-                                    extra: chat.chatId,
-                                  ),
-                                  child: SizedBox(
-                                    width: 70.w,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Avatar(
-                                          path: chat.avatarPath,
-                                          radius:
-                                              AppDimens.circleAvatarRadiusLarge,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 105.h),
+                      child: state.connectedChats.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No connected chats',
+                                style: AppTypography.of(context).caption,
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: state.connectedChats.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                final chat = state.connectedChats[index];
+                                if (chat.name.toLowerCase().trim().contains(
+                                    searchController.text
+                                        .toLowerCase()
+                                        .trim())) {
+                                  return Padding(
+                                    padding: EdgeInsetsX.all(AppSpacings.eight),
+                                    child: InkWell(
+                                      onTap: () => context.push(
+                                        Routes.chat,
+                                        extra: chat.chatId,
+                                      ),
+                                      child: SizedBox(
+                                        width: 70.w,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Avatar(
+                                              path: chat.avatarPath,
+                                              radius: AppDimens
+                                                  .circleAvatarRadiusLarge,
+                                            ),
+                                            Text(
+                                              chat.name,
+                                              style: AppTypography.of(context)
+                                                  .caption,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          chat.name,
-                                          style:
-                                              AppTypography.of(context).caption,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
-                        ),
-                      ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                    ),
                     Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: AppSpacings.eight.w),
@@ -225,9 +226,12 @@ class HomePage extends HookWidget {
                       .contains(searchController.text.toLowerCase().trim())) {
                     return Padding(
                       padding: EdgeInsets.only(
-                          top: AppSpacings.six.h,
+                          top: AppSpacings.eight.h,
                           left: AppSpacings.eight.w,
-                          right: AppSpacings.eight.w),
+                          right: AppSpacings.eight.w,
+                          bottom: index == state.chats.length - 1
+                              ? AppSpacings.sixtyFour.h
+                              : AppSpacings.ten.h),
                       child: InkWell(
                         child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
